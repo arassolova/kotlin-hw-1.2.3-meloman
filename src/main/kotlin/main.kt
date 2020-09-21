@@ -16,24 +16,46 @@ fun main() {
     val currentPurchase = price * count
 
     val currentPurchaseResult =
-        if (regularCustomer) {
-            if (lastPurchase <= discountStart) currentPurchase - currentPurchase * discountForRegularCustomer
-            else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
-                (currentPurchase - discount) - (currentPurchase - discount) * discountForRegularCustomer
-            } else {
-                (currentPurchase - currentPurchase * discountBigPurchase) - (currentPurchase - currentPurchase * discountBigPurchase) * discountForRegularCustomer
-            }
-        } else {
-            if (lastPurchase <= discountStart) {
-                currentPurchase
-            } else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
-                currentPurchase - discount
-            } else {
-                currentPurchase - currentPurchase * discountBigPurchase
-            }
-        }
+        calculateTotalPrice(
+            regularCustomer,
+            lastPurchase,
+            discountStart,
+            currentPurchase,
+            discountForRegularCustomer,
+            discountStartBigPurchase,
+            discount,
+            discountBigPurchase
+        )
 
     println("Сумма покупки: $currentPurchase"
             +"\nСумма покупки со скидками: $currentPurchaseResult"
     )
+}
+
+private fun calculateTotalPrice(
+    regularCustomer: Boolean,
+    lastPurchase: Int,
+    discountStart: Int,
+    currentPurchase: Int,
+    discountForRegularCustomer: Double,
+    discountStartBigPurchase: Int,
+    discount: Int,
+    discountBigPurchase: Double
+): Number {
+    return if (regularCustomer) {
+        if (lastPurchase <= discountStart) currentPurchase - currentPurchase * discountForRegularCustomer
+        else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
+            (currentPurchase - discount) - (currentPurchase - discount) * discountForRegularCustomer
+        } else {
+            (currentPurchase - currentPurchase * discountBigPurchase) - (currentPurchase - currentPurchase * discountBigPurchase) * discountForRegularCustomer
+        }
+    } else {
+        if (lastPurchase <= discountStart) {
+            currentPurchase
+        } else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
+            currentPurchase - discount
+        } else {
+            currentPurchase - currentPurchase * discountBigPurchase
+        }
+    }
 }
