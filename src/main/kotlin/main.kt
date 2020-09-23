@@ -1,61 +1,53 @@
 fun main() {
-    val price = 100
-    val count = 10
 
-    val regularCustomer = true
-    val lastPurchase = 11_000 //сумма ПРЕДЫДУЩЕЙ покупки, по условиям задачи от нее зависят скидки
-
-    val discountStart = 1_000
-    val discount = 100
-
-    val discountStartBigPurchase = 10_000
-    val discountBigPurchase = 0.05
-
-    val discountForRegularCustomer = 0.01
-
-    val currentPurchase = price * count
-
-    val currentPurchaseResult =
-        calculateTotalPrice(
-            regularCustomer,
-            lastPurchase,
-            discountStart,
-            currentPurchase,
-            discountForRegularCustomer,
-            discountStartBigPurchase,
-            discount,
-            discountBigPurchase
-        )
-
-    println("Сумма покупки: $currentPurchase"
-            +"\nСумма покупки со скидками: $currentPurchaseResult"
+    println("Сумма покупок для постоянного покупателя:"
+            + "\nСумма покупки без скидки за предыдущие покупки: "
+            + calculateTotalPrice(true, 0, 1_000)
+            + "\nСумма покупки со скидкой за предыдущие покупки от 1_000: "
+            + calculateTotalPrice(true, 5_000, 1_000)
+            + "\nСумма покупки со скидкой за предыдущие покупки от 10_000: "
+            + calculateTotalPrice(true, 11_000, 1_000)
+    )
+    println()
+    println("Сумма покупок для непостоянного покупателя:"
+            + "\nСумма покупки без скидки за предыдущие покупки: "
+            + calculateTotalPrice(false,0,1_000)
+            + "\nСумма покупки со скидкой за предыдущие покупки от 1_000: "
+            + calculateTotalPrice(false, 5_000, 1_000)
+            + "\nСумма покупки со скидкой за предыдущие покупки от 10_000: "
+            + calculateTotalPrice(false, 11_000, 1_000)
     )
 }
 
-private fun calculateTotalPrice(
+fun calculateTotalPrice(
     regularCustomer: Boolean,
     lastPurchase: Int,
-    discountStart: Int,
-    currentPurchase: Int,
-    discountForRegularCustomer: Double,
-    discountStartBigPurchase: Int,
-    discount: Int,
-    discountBigPurchase: Double
+    currentPurchase: Int
 ): Number {
+    val discountStart = 1_000
+    val discount = 100
+    val priceWithSmallDiscount = currentPurchase - discount
+
+    val discountStartForBigPurchase = 10_000
+    val discountForBigPurchase = 0.05
+    val priceWithBigDiscount = currentPurchase * (1-discountForBigPurchase)
+
+    val discountForRegularCustomer = 0.01
+
     return if (regularCustomer) {
-        if (lastPurchase <= discountStart) currentPurchase - currentPurchase * discountForRegularCustomer
-        else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
-            (currentPurchase - discount) - (currentPurchase - discount) * discountForRegularCustomer
+        if (lastPurchase <= discountStart) currentPurchase * (1 - discountForRegularCustomer)
+        else if (lastPurchase > discountStart && lastPurchase <= discountStartForBigPurchase) {
+            priceWithSmallDiscount * (1 - discountForRegularCustomer)
         } else {
-            (currentPurchase - currentPurchase * discountBigPurchase) - (currentPurchase - currentPurchase * discountBigPurchase) * discountForRegularCustomer
+            priceWithBigDiscount * (1 - discountForRegularCustomer)
         }
     } else {
         if (lastPurchase <= discountStart) {
             currentPurchase
-        } else if (lastPurchase > discountStart && lastPurchase <= discountStartBigPurchase) {
-            currentPurchase - discount
+        } else if (lastPurchase > discountStart && lastPurchase <= discountStartForBigPurchase) {
+            priceWithSmallDiscount
         } else {
-            currentPurchase - currentPurchase * discountBigPurchase
+            priceWithBigDiscount
         }
     }
 }
