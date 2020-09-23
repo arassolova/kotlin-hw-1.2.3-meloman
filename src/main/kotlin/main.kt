@@ -11,17 +11,17 @@ fun main() {
     println()
     println("Сумма покупок для непостоянного покупателя:"
             + "\nСумма покупки без скидки за предыдущие покупки: "
-            + calculateTotalPrice(false,0,1_000)
+            + calculateTotalPrice(currentPurchase = 1000)
             + "\nСумма покупки со скидкой за предыдущие покупки от 1_000: "
-            + calculateTotalPrice(false, 5_000, 1_000)
+            + calculateTotalPrice(lastPurchase = 5_000, currentPurchase = 1_000)
             + "\nСумма покупки со скидкой за предыдущие покупки от 10_000: "
-            + calculateTotalPrice(false, 11_000, 1_000)
+            + calculateTotalPrice(lastPurchase = 11_000, currentPurchase = 1_000)
     )
 }
 
 fun calculateTotalPrice(
-    regularCustomer: Boolean,
-    lastPurchase: Int,
+    regularCustomer: Boolean = false,
+    lastPurchase: Int = 0,
     currentPurchase: Int
 ): Number {
     val discountStart = 1_000
