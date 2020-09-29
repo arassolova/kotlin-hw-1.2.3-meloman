@@ -56,7 +56,7 @@ fun textPriceRub(price: Double): String{
         1 -> "$priceRub рубль"
         2, 3, 4 -> "$priceRub рубля"
         else -> {
-            when(val ostatok10 = ostatok100%10) {
+            when(ostatok100%10) {
                 1 -> "$priceRub рубль"
                 2, 3, 4 -> "$priceRub рубля"
                 else -> "$priceRub рублей"
@@ -67,14 +67,13 @@ fun textPriceRub(price: Double): String{
 
 fun textPriceCop(price: Double): String{
     val priceCop = (price * 100).toInt()
-    val copeeks = priceCop%100
-    return when(copeeks){
+    return when(val copeeks = priceCop%100){
         0 -> ""
         in 5..20 -> "$copeeks копеек"
         1 -> "$copeeks копейка"
         2, 3, 4 -> "$copeeks копейки"
         else -> {
-            when(val ostatok10 = copeeks%10) {
+            when(copeeks%10) {
                 1 -> "$copeeks копейка"
                 2, 3, 4 -> "$copeeks копейки"
                 else -> "$copeeks копеек"
