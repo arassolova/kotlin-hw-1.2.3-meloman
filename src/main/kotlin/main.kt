@@ -69,7 +69,8 @@ fun textPriceCop(price: Double): String{
     val priceCop = (price * 100).toInt()
     val copeeks = priceCop%100
     return when(copeeks){
-        0, in 5..20 -> "$copeeks копеек"
+        0 -> ""
+        in 5..20 -> "$copeeks копеек"
         1 -> "$copeeks копейка"
         2, 3, 4 -> "$copeeks копейки"
         else -> {
